@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.tycoding.tumo.cloud.common.log.config.LogAutoConfig, \
+  cn.tycoding.tumo.cloud.common.log.utils.SpringContextHolder

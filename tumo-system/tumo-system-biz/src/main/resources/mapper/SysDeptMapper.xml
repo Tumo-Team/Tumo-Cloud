@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tycoding.tumo.cloud.system.biz.mapper.SysDeptMapper">
+
+    <update id="changeTopNode">
+        update sys_dept
+        set parent_id = 0
+        where id in
+        (
+            select a.id from
+            (
+                select id from sys_dept where parent_id = #{id}
+            ) a
+        )
+    </update>
+
+</mapper>

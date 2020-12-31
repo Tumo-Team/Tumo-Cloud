@@ -1,0 +1,26 @@
+server:
+  port: 5001
+
+spring:
+  application:
+    name: tumo-cloud-visual-admin
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: tumo-cloud-nacos:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+  security:
+    user:
+      name: tumo-cloud
+      password: tumo-cloud
+  boot:
+    admin:
+      ui:
+        title: Tumo-Cloud 服务监控
