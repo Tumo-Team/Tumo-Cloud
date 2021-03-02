@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.tycoding.cloud.common.swagger.SwaggerAutoConfiguration

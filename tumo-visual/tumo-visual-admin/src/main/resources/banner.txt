@@ -1,9 +1,0 @@
- ______     ______     ______     ______
-/\  ___\   /\  ___\   /\  ___\   /\__  _\           ${spring.application.name}
-\ \___  \  \ \ \____  \ \___  \  \/_/\ \/           Run successfully!
- \/\_____\  \ \_____\  \/\_____\    \ \_\           Port:${server.port}
-  \/_____/   \/_____/   \/_____/     \/_/
-
-- Author: TyCoding
-- Blog: https://tycoding.cn/
-- Github: https://github.com/TyCoding

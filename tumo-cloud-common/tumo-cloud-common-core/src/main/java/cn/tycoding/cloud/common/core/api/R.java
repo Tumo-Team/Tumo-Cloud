@@ -1,0 +1,84 @@
+package cn.tycoding.cloud.common.core.api;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * 统一结果集封装
+ *
+ * @author tycoding
+ * @since 2021/2/25
+ */
+@Data
+public class R<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private int code = HttpCode.SUCCESS.code;
+
+    private String msg = HttpCode.SUCCESS.msg;
+
+    private T data;
+
+    public R() {
+        super();
+    }
+
+    public R(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public static <T> R<T> data(T data) {
+        return new R(data);
+    }
+
+    public static <T> R<T> data(T data, HttpCode httpCode) {
+        return new R(data, httpCode);
+    }
+
+    public static <T> R<T> ok() {
+        return new R<>();
+    }
+
+    public static <T> R<T> ok(String msg) {
+        return new R<>(HttpCode.SUCCESS.getCode(), msg);
+    }
+
+    public static <T> R<T> ok(HttpCode httpCode) {
+        return new R<>(httpCode);
+    }
+
+    public static <T> R<T> fail(String msg) {
+        return new R<>(HttpCode.FAILURE.getCode(), msg);
+    }
+
+    public static <T> R<T> fail(HttpCode httpCode) {
+        return new R<>(httpCode);
+    }
+
+    public static <T> R<T> fail(Throwable e) {
+        return new R<>(e);
+    }
+
+    protected R(T data) {
+        this.data = data;
+    }
+
+    protected R(HttpCode httpCode) {
+        this.code = httpCode.code;
+        this.msg = httpCode.msg;
+    }
+
+    protected R(T data, HttpCode httpCode) {
+        this.data = data;
+        this.code = httpCode.code;
+        this.msg = httpCode.msg;
+    }
+
+    protected R(Throwable e) {
+        super();
+        this.code = HttpCode.INTERNAL_SERVER_ERROR.code;
+        this.msg = e.getMessage();
+    }
+}

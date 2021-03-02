@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.tycoding.cloud.upms.api.feign.fallback.RemoteLogServiceFallbackImpl, \
+  cn.tycoding.cloud.upms.api.feign.fallback.RemoteUserServiceFallbackImpl

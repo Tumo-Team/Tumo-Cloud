@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.tycoding</groupId>
+        <artifactId>Tumo-Cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>tumo-cloud-gateway</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- Common-Swagger模块 -->
+        <dependency>
+            <groupId>cn.tycoding</groupId>
+            <artifactId>tumo-cloud-common-swagger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- SpringCloud -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
+        </dependency>
+        <!-- LB 扩展 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!-- gateway使用的是webflux，底层使用Netty，所以不能引入`starter-web`依赖，他会引入Tomcat容器造成冲突 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.tycoding.cloud.gateway.TumoCloudGatewayApp</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
