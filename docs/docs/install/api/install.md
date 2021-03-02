@@ -124,7 +124,7 @@
 在项目`db/`文件夹内可看到`.sql`文件夹，其中：
 
 - `scst.sql` 是项目基础数据表，对应数据库名称是 `scst`
-- `scst_nacos_config.sql` 是Nacos Config配置中心的数据表，对应数据库名称是 `scst_nacos_config`
+- `tumo_cloud_nacos.sql` 是Nacos Config配置中心的数据表，对应数据库名称是 `scst_nacos_config`
 
 上按照上述数据库名称，分别导入两个`sql`文件。
 
