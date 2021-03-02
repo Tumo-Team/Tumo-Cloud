@@ -1,5 +1,8 @@
 package cn.tycoding.cloud.auth.handler;
 
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.http.HttpUtil;
+import cn.tycoding.cloud.common.auth.utils.AuthUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -21,6 +24,7 @@ public class FormFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         log.error("认证登录失败：{}", e.getMessage());
-
+        String url = HttpUtil.encodeParams("/token/login?error=" + e.getMessage(), CharsetUtil.CHARSET_UTF_8);
+        AuthUtil.getResponse().sendRedirect(url);
     }
 }

@@ -19,9 +19,8 @@
             <label for="password" class="sr-only">Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
         </p>
+        <p th:if="${error}" class="text-danger text-center">[[${error}]]</p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-
-        <p th:if="${error}" class="text-danger">[[${error}]]</p>
     </form>
 </div>
 </body>
