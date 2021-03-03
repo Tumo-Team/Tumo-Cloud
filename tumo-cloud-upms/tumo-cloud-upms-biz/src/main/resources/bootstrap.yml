@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: tumo-cloud-system-biz
+    name: tumo-cloud-upms
   main:
     allow-bean-definition-overriding: true
 

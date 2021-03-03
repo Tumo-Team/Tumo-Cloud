@@ -21,9 +21,12 @@ import java.io.IOException;
 @Slf4j
 public class FormFailureHandler implements AuthenticationFailureHandler {
 
+    /**
+     * 登录认证失败时需要手动重新跳转到登录页面
+     */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        log.error("认证登录失败：{}", e.getMessage());
+        log.error("登录认证失败：{}", e.getMessage());
         String url = HttpUtil.encodeParams("/token/login?error=" + e.getMessage(), CharsetUtil.CHARSET_UTF_8);
         AuthUtil.getResponse().sendRedirect(url);
     }

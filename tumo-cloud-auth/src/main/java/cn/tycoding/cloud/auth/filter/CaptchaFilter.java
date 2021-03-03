@@ -1,4 +1,4 @@
-package cn.tycoding.cloud.common.auth.config;
+package cn.tycoding.cloud.auth.filter;
 
 import cn.tycoding.cloud.common.auth.utils.AuthUtil;
 import cn.tycoding.cloud.common.core.api.R;

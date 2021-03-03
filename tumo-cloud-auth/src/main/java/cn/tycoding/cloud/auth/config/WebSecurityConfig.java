@@ -1,11 +1,11 @@
 package cn.tycoding.cloud.auth.config;
 
+import cn.tycoding.cloud.auth.filter.CaptchaFilter;
 import cn.tycoding.cloud.auth.handler.FormFailureHandler;
 import cn.tycoding.cloud.common.auth.service.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * SpringSecurity配置
@@ -21,10 +22,11 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
  * @author tycoding
  * @since 2021/2/25
  */
-@Order(90)
-@Primary
 @Configuration
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final CaptchaFilter captchaFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -79,6 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .csrf().disable();
+
+        http.addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
