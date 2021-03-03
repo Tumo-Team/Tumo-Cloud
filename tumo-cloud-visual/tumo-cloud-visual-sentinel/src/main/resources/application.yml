@@ -6,12 +6,12 @@ server:
         name: sentinel_dashboard_cookie
 
 auth:
-  username: tumo-cloud
-  password: tumo-cloud
+  username: Tumo-Cloud
+  password: Tumo-Cloud
   filter:
     exclude-urls: /,/auth/login,/auth/logout,/registry/machine,/version
     exclude-url-suffixes: htm,html,js,css,map,ico,ttf,woff,png
 
 sentinel:
   dashboard:
-    version: ${project.version}
+    version: 1.8.1

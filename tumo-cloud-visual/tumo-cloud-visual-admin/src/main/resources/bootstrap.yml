@@ -4,8 +4,7 @@ server:
 spring:
   application:
     name: tumo-cloud-visual-admin
-  profiles:
-    active: dev
+
   cloud:
     nacos:
       discovery:
@@ -18,8 +17,8 @@ spring:
 
   security:
     user:
-      name: tumo-cloud
-      password: tumo-cloud
+      name: Tumo-Cloud
+      password: Tumo-Cloud
   boot:
     admin:
       ui:

@@ -2,16 +2,18 @@ package cn.tycoding.cloud.visual.admin;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * Spring Boot Admin 服务端
+ * Spring Boot Admin服务端
  *
  * @author tycoding
- * @date 2020/7/13
+ * @since 2021/3/3
  */
 @EnableAdminServer
-@SpringCloudApplication
+@SpringBootApplication
+@EnableDiscoveryClient
 public class TumoCloudVisualAdminApp {
 
     public static void main(String[] args) {

@@ -7,10 +7,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * 系统权限管理模块
+ * UPMS 用户、权限、角色体系模块
  *
  * @author tycoding
- * @date 2020/7/13
+ * @since 2021/3/3
  */
 @EnableFeignClients
 @SpringBootApplication

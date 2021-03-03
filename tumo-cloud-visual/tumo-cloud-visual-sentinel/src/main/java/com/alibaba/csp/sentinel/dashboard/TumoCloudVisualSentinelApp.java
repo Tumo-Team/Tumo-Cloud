@@ -22,8 +22,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Sentinel dashboard application.
- * <p>
- * 代码来自：https://github.com/alibaba/Sentinel/tree/master/sentinel-dashboard
+ *
+ * 代码来自：https://github.com/alibaba/Sentinel/releases/tag/1.8.1
  *
  * @author Carpenter Lee
  */

@@ -7,9 +7,9 @@
         <i class="fa fa-plus"></i>&nbsp;&nbsp;新增热点限流规则</button>
     </div>
   </div>
-
+  
   <div class="separator"></div>
-
+  
   <div class="container-fluid">
     <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="col-md-12">
@@ -67,7 +67,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr dir-paginate="ruleEntity in rules | filter: searchKey | itemsPerPage: rulesPageConfig.pageSize " current-queryPage="rulesPageConfig.currentPageIndex"
+                        <tr dir-paginate="ruleEntity in rules | filter: searchKey | itemsPerPage: rulesPageConfig.pageSize " current-page="rulesPageConfig.currentPageIndex"
                             pagination-id="entriesPagination">
                             <td style="word-wrap:break-word;word-break:break-all;">{{ruleEntity.rule.resource}}</td>
                             <td style="word-wrap:break-word;word-break:break-all;">{{ruleEntity.rule.paramIdx}}</td>
@@ -95,7 +95,7 @@
                 <!-- .card-body -->
                 <div class="pagination-footer" ng-if="!loadError">
                     <dir-pagination-controls boundary-links="true" template-url="app/views/pagination.tpl.html" pagination-id="entriesPagination"
-                                             on-queryPage-change="">
+                                             on-page-change="">
                     </dir-pagination-controls>
                     <div class="tools" style="">
                         <span>共 {{rulesPageConfig.totalCount}} 条记录, </span>
@@ -115,3 +115,4 @@
     <!-- -->
   </div>
   <!-- .container-fluid -->
+  
