@@ -2,7 +2,6 @@ package cn.tycoding.cloud.common.auth.config;
 
 import cn.tycoding.cloud.common.auth.props.AuthProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
@@ -28,7 +27,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, swagger_ignores)
+                .antMatchers(swagger_ignores)
                 .permitAll()
 
                 .antMatchers(authProperties.getSkipUrl().toArray(new String[0]))

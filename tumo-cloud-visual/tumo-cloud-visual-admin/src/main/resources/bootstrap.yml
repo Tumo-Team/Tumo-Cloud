@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: tumo-cloud-visual-admin
+  profiles:
+    active: dev
 
   cloud:
     nacos:

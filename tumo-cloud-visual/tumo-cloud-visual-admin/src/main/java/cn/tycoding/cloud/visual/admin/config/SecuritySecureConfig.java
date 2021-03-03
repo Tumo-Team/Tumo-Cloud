@@ -13,12 +13,12 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
  * @author tycoding
  * @date 2020/7/20
  */
-@Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration(proxyBeanMethods = false)
+public class SecuritySecureConfig extends WebSecurityConfigurerAdapter {
 
     private final String contextPath;
 
-    public WebSecurityConfig(AdminServerProperties adminServerProperties) {
+    public SecuritySecureConfig(AdminServerProperties adminServerProperties) {
         contextPath = adminServerProperties.getContextPath();
     }
 
@@ -32,16 +32,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers(contextPath + "/assets/**", contextPath + "/login", contextPath + "/actuator/**").permitAll()
-                .anyRequest().authenticated()
+
+                .antMatchers(contextPath + "/assets/**",
+                        contextPath + "/login",
+                        contextPath + "/actuator/**",
+                        contextPath + "/instances/**")
+                .permitAll()
+
+                .anyRequest()
+                .authenticated()
+
                 .and()
                 .formLogin().loginPage(contextPath + "/login")
                 .successHandler(successHandler)
+
                 .and()
                 .logout().logoutUrl(contextPath + "/logout")
+
                 .and()
                 .httpBasic()
+
                 .and()
                 .csrf().disable();
+
     }
+
 }

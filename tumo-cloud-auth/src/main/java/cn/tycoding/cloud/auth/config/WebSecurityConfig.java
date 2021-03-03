@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/anon")
                 .permitAll()
 
-                .antMatchers("/token/**")
+                .antMatchers("/token/**", "/actuator/**")
                 .permitAll()
 
                 .anyRequest()
