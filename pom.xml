@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.3</version>
+        <version>2.4.4</version>
     </parent>
 
     <groupId>cn.tycoding</groupId>
@@ -26,8 +26,8 @@
         <spring-boot.version>2.4.3</spring-boot.version>
 
         <!-- SpringCloud版本 -->
-        <spring-cloud.version>2020.0.1</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud.version>2020.0.2</spring-cloud.version>
+        <spring-cloud-alibaba.version>2020.0.RC1</spring-cloud-alibaba.version>
         <spring-boot-admin.version>2.4.0</spring-boot-admin.version>
         <security-oauth.version>2.5.0.RELEASE</security-oauth.version>
 

@@ -36,6 +36,7 @@ public class TumoCloudNacosApp {
     public static void main(String[] args) {
         System.setProperty("nacos.standalone", "true");
         System.setProperty("nacos.core.auth.enabled", "false");
+        System.setProperty("server.tomcat.basedir", "logs");
         SpringApplication.run(TumoCloudNacosApp.class, args);
     }
 }

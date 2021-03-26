@@ -7,6 +7,8 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 简单封装Redis常见的方法
+ *
  * @author tycoding
  * @since 2021/1/25
  */

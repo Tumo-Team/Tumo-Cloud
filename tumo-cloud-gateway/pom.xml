@@ -19,6 +19,12 @@
             <artifactId>tumo-cloud-common-swagger</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <!-- Loadbalancer扩展 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
         <!-- SpringCloud -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -35,11 +41,6 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
-        </dependency>
-        <!-- LB 扩展 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
         <!-- gateway使用的是webflux，底层使用Netty，所以不能引入`starter-web`依赖，他会引入Tomcat容器造成冲突 -->
         <dependency>

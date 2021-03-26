@@ -1,10 +1,10 @@
 package cn.tycoding.cloud.upms.biz;
 
 import cn.tycoding.cloud.common.auth.annotation.EnableTumoResourceServer;
+import cn.tycoding.cloud.common.feign.annotation.EnableTumoFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * UPMS 用户、权限、角色体系模块
@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author tycoding
  * @since 2021/3/3
  */
-@EnableFeignClients
+@EnableTumoFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableTumoResourceServer

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
  Source Server Version : 50729
- Source Host           : localhost:3306
+ Source Host           : 127.0.0.1:3306
  Source Schema         : tumo_cloud_nacos
 
  Target Server Type    : MySQL
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 03/03/2021 09:36:00
+ Date: 24/03/2021 14:53:00
 */
 
 SET NAMES utf8mb4;
@@ -40,12 +40,16 @@ CREATE TABLE `config_info` (
   `c_schema` text COLLATE utf8_bin,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
 
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
 BEGIN;
+INSERT INTO `config_info` VALUES (3, 'application-dev.yml', 'DEFAULT_GROUP', 'spring:\n  datasource:\n    type: com.zaxxer.hikari.HikariDataSource\n    driver-class-name: com.mysql.cj.jdbc.Driver\n\n  cloud:\n    sentinel:\n      eager: true\n      transport:\n        dashboard: tumo-cloud-sentinel:5002\n\n# 暴露监控端点\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \"*\"\n\n# 自定义配置\ntumo-cloud:\n  auth:\n    skip-url: \n      - /actuator/**\n\nmybatis-plus:\n  type-aliases-package: cn.tycoding.cloud.**.entity\n  mapper-locations: classpath:mapper/**/*.xml\n  configuration:\n    jdbc-type-for-null: null\n  global-config:\n    banner: false', 'ad8eeed2a9566e04c82f59d04ae2683b', '2021-03-24 06:50:23', '2021-03-24 06:50:23', NULL, '127.0.0.1', '', '', '基础配置', NULL, NULL, 'yaml', NULL);
+INSERT INTO `config_info` VALUES (4, 'tumo-cloud-auth-dev.yml', 'DEFAULT_GROUP', 'spring:\n  datasource:\n    username: root\n    password: root\n    url: jdbc:mysql://tumo-cloud-mysql:3306/tumo_cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai\n  redis:\n    port: 6379\n    host: tumo-cloud-redis', '7db7a02bcc9924e1a7d3f1eea74370be', '2021-03-24 06:51:03', '2021-03-24 06:51:03', NULL, '127.0.0.1', '', '', 'Tumo-Cloud Auth模块配置', NULL, NULL, 'yaml', NULL);
+INSERT INTO `config_info` VALUES (5, 'tumo-cloud-gateway-dev.yml', 'DEFAULT_GROUP', 'spring:\n  cloud:\n    gateway:\n      discovery:\n        locator:\n          enabled: true\n      # 路由规则\n      routes:\n        # Auth服务路由\n        - id: tumo-cloud-auth\n          uri: lb://tumo-cloud-auth\n          predicates:\n            - Path=/tumo-cloud/auth/**\n          filters:\n            - StripPrefix=2\n        # Upms服务路由\n        - id: tumo-cloud-upms\n          uri: lb://tumo-cloud-upms\n          predicates:\n            - Path=/tumo-cloud/upms/**\n          filters:\n            - StripPrefix=2\n', '17bf204457bf679a45969af25f7828ea', '2021-03-24 06:51:40', '2021-03-24 06:51:40', NULL, '127.0.0.1', '', '', 'Tumo-Cloud Gateway模块', NULL, NULL, 'yaml', NULL);
+INSERT INTO `config_info` VALUES (6, 'tumo-cloud-upms-dev.yml', 'DEFAULT_GROUP', 'spring:\n  datasource:\n    username: root\n    password: root\n    url: jdbc:mysql://tumo-cloud-mysql:3306/tumo_cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai\n', '7e226116e33b0edede982961765ea85e', '2021-03-24 06:52:24', '2021-03-24 06:52:24', NULL, '127.0.0.1', '', '', 'Tumo-Cloud Upms模块', NULL, NULL, 'yaml', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -195,12 +199,16 @@ CREATE TABLE `his_config_info` (
   KEY `idx_gmt_create` (`gmt_create`),
   KEY `idx_gmt_modified` (`gmt_modified`),
   KEY `idx_did` (`data_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
 
 -- ----------------------------
 -- Records of his_config_info
 -- ----------------------------
 BEGIN;
+INSERT INTO `his_config_info` VALUES (0, 34, 'application-dev.yml', 'DEFAULT_GROUP', '', 'spring:\n  datasource:\n    type: com.zaxxer.hikari.HikariDataSource\n    driver-class-name: com.mysql.cj.jdbc.Driver\n\n  cloud:\n    sentinel:\n      eager: true\n      transport:\n        dashboard: tumo-cloud-sentinel:5002\n\n# 暴露监控端点\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \"*\"\n\n# 自定义配置\ntumo-cloud:\n  auth:\n    skip-url: \n      - /actuator/**\n\nmybatis-plus:\n  type-aliases-package: cn.tycoding.cloud.**.entity\n  mapper-locations: classpath:mapper/**/*.xml\n  configuration:\n    jdbc-type-for-null: null\n  global-config:\n    banner: false', 'ad8eeed2a9566e04c82f59d04ae2683b', '2021-03-24 14:50:22', '2021-03-24 06:50:23', NULL, '127.0.0.1', 'I', '');
+INSERT INTO `his_config_info` VALUES (0, 35, 'tumo-cloud-auth-dev.yml', 'DEFAULT_GROUP', '', 'spring:\n  datasource:\n    username: root\n    password: root\n    url: jdbc:mysql://tumo-cloud-mysql:3306/tumo_cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai\n  redis:\n    port: 6379\n    host: tumo-cloud-redis', '7db7a02bcc9924e1a7d3f1eea74370be', '2021-03-24 14:51:02', '2021-03-24 06:51:03', NULL, '127.0.0.1', 'I', '');
+INSERT INTO `his_config_info` VALUES (0, 36, 'tumo-cloud-gateway-dev.yml', 'DEFAULT_GROUP', '', 'spring:\n  cloud:\n    gateway:\n      discovery:\n        locator:\n          enabled: true\n      # 路由规则\n      routes:\n        # Auth服务路由\n        - id: tumo-cloud-auth\n          uri: lb://tumo-cloud-auth\n          predicates:\n            - Path=/tumo-cloud/auth/**\n          filters:\n            - StripPrefix=2\n        # Upms服务路由\n        - id: tumo-cloud-upms\n          uri: lb://tumo-cloud-upms\n          predicates:\n            - Path=/tumo-cloud/upms/**\n          filters:\n            - StripPrefix=2\n', '17bf204457bf679a45969af25f7828ea', '2021-03-24 14:51:39', '2021-03-24 06:51:40', NULL, '127.0.0.1', 'I', '');
+INSERT INTO `his_config_info` VALUES (0, 37, 'tumo-cloud-upms-dev.yml', 'DEFAULT_GROUP', '', 'spring:\n  datasource:\n    username: root\n    password: root\n    url: jdbc:mysql://tumo-cloud-mysql:3306/tumo_cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai\n', '7e226116e33b0edede982961765ea85e', '2021-03-24 14:52:23', '2021-03-24 06:52:24', NULL, '127.0.0.1', 'I', '');
 COMMIT;
 
 -- ----------------------------
@@ -213,12 +221,6 @@ CREATE TABLE `permissions` (
   `action` varchar(8) NOT NULL,
   UNIQUE KEY `uk_role_permission` (`role`,`resource`,`action`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of permissions
--- ----------------------------
-BEGIN;
-COMMIT;
 
 -- ----------------------------
 -- Table structure for roles
@@ -301,7 +303,7 @@ CREATE TABLE `users` (
 -- Records of users
 -- ----------------------------
 BEGIN;
-INSERT INTO `users` VALUES ('nacos', '$2a$10$EuWPZHzz32dJN7jexM34MOeYirDdFAZm2kuWj7VEOJhhZkDrxfvUu', 1);
+INSERT INTO `users` VALUES ('Tumo-Cloud', '$2a$10$zH8A4Zj5SyVZtJ9MICf7KuY402xS3LAHEyCOg18jSsXwU96HxTSii', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

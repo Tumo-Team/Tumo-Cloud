@@ -28,11 +28,10 @@
             <artifactId>tumo-cloud-common-mybatis</artifactId>
             <version>1.0.0</version>
         </dependency>
-
-        <!-- 分布式HTTP客户端Feign -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>cn.tycoding</groupId>
+            <artifactId>tumo-cloud-common-feign</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- Security安全 -->

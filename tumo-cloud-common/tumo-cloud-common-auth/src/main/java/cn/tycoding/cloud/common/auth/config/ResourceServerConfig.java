@@ -30,6 +30,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(swagger_ignores)
                 .permitAll()
 
+                .antMatchers("/actuator/**")
+                .permitAll()
+
                 .antMatchers(authProperties.getSkipUrl().toArray(new String[0]))
                 .permitAll()
 
