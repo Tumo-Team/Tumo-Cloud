@@ -1,0 +1,8 @@
+tumo-cloud:
+  swagger:
+    title: Tumo-Cloud 微服务项目
+    description: 基于SpringBoot2.4.x & SpringCloud2020.x 的RBAC微服务项目
+    author: tycoding
+    url: http://tycoding.cn
+    email: tycoding@sina.com
+    version: 1.0.0
