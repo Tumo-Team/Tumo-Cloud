@@ -1,3 +1,7 @@
+knife4j:
+  enable: true
+
+# 自定义配置
 tumo-cloud:
   swagger:
     title: Tumo-Cloud 微服务项目

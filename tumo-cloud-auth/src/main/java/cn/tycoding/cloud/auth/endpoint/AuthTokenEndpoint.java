@@ -4,9 +4,10 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.lang.Dict;
 import cn.tycoding.cloud.common.auth.constant.CaptchaConstant;
-import cn.tycoding.cloud.common.core.constants.CacheConstant;
 import cn.tycoding.cloud.common.core.api.R;
+import cn.tycoding.cloud.common.core.constants.CacheConstant;
 import cn.tycoding.cloud.common.redis.component.TumoRedisComponent;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/token")
+@Api(value = "自定义Token端点", tags = "自定义Token端点")
 public class AuthTokenEndpoint {
 
     private final TokenStore tokenStore;
@@ -37,9 +39,11 @@ public class AuthTokenEndpoint {
     /**
      * 自定义授权登录页面
      * SpringSecurity默认formLogin：
+     *
      * @see org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
      */
     @GetMapping("/login")
+    @ApiOperation(value = "自定义授权登录页面")
     public ModelAndView login(ModelAndView modelAndView, String error) {
         modelAndView.setViewName("login");
         modelAndView.addObject("error", error);

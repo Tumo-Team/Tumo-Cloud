@@ -3,6 +3,9 @@ package cn.tycoding.cloud.common.swagger.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author tycoding
  * @since 2020/12/25
@@ -14,7 +17,7 @@ public class SwaggerProperties {
     /**
      * 扫描的接口package地址
      */
-    private String basePackage;
+    private List<String> basePackages = new ArrayList<>();
 
     /**
      * 文档标题
