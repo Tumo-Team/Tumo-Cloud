@@ -1,6 +1,7 @@
 package cn.tycoding.cloud.common.swagger;
 
 import cn.tycoding.cloud.common.core.constants.ApiConstant;
+import cn.tycoding.cloud.common.core.constants.ApiPrefixConstant;
 import cn.tycoding.cloud.common.swagger.properties.SwaggerProperties;
 import cn.tycoding.cloud.common.swagger.utils.SwaggerUtil;
 import com.google.common.collect.Lists;
@@ -27,34 +28,34 @@ import java.util.List;
 @Configuration
 @EnableConfigurationProperties({SwaggerProperties.class})
 public class SwaggerAutoConfiguration {
+    private final static String BASE_PACKAGE = "cn.tycoding.cloud";
 
     @Bean
     public Docket docket(SwaggerProperties swagger) {
         if (swagger.getBasePackages().size() == 0) {
-            swagger.getBasePackages().add("cn.tycoding.cloud");
+            swagger.getBasePackages().add(BASE_PACKAGE);
         }
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo(swagger))
                 .select()
                 .apis(SwaggerUtil.basePackage(swagger.getBasePackages()))
-                .paths(PathSelectors.any())
                 .build()
-                .securityContexts(securityContexts())
-                .securitySchemes(securitySchemes())
-                ;
+                .securityContexts(securityContexts(swagger))
+                .securitySchemes(securitySchemes());
     }
 
-    private List<SecurityContext> securityContexts() {
+    private List<SecurityContext> securityContexts(SwaggerProperties swagger) {
         List<AuthorizationScope> scopes = new ArrayList<>();
-        scopes.add(new AuthorizationScope("read", "read  resources"));
-        scopes.add(new AuthorizationScope("write", "write resources"));
-        scopes.add(new AuthorizationScope("reads", "read all resources"));
-        scopes.add(new AuthorizationScope("writes", "write all resources"));
+        swagger.getAuthorizationScopeList().forEach(s -> {
+            scopes.add(new AuthorizationScope(s.getScope(), s.getDescription()));
+        });
 
         SecurityReference securityReference = new SecurityReference("oauth2", scopes.toArray(new AuthorizationScope[]{}));
-        SecurityContext securityContext = new SecurityContext(Lists.newArrayList(securityReference), PathSelectors.ant("/api/**"), null, null);
-        return Lists.newArrayList(securityContext);
+        return Lists.newArrayList(SecurityContext
+                .builder()
+                .securityReferences(Lists.newArrayList(securityReference))
+                .build());
     }
 
     private ArrayList<SecurityScheme> securitySchemes() {

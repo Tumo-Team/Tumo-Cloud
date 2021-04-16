@@ -4,6 +4,9 @@ knife4j:
 # 自定义配置
 tumo-cloud:
   swagger:
+    authorization-scope-list:
+      - scope: 'app'
+        description: 'default scope'
     title: Tumo-Cloud 微服务项目
     description: 基于SpringBoot2.4.x & SpringCloud2020.x 的RBAC微服务项目
     author: tycoding
