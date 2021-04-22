@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(swagger_ignores)
                 .permitAll()
 
-                .antMatchers("/anon")
+                .antMatchers("/test/anon")
                 .permitAll()
 
                 .antMatchers("/token/**", "/actuator/**")

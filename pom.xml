@@ -50,6 +50,7 @@
         <module>tumo-cloud-gateway</module>
         <module>tumo-cloud-upms</module>
         <module>tumo-cloud-visual</module>
+        <module>tumo-cloud-demo</module>
     </modules>
 
     <!-- 项目基础依赖 -->

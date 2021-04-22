@@ -19,25 +19,25 @@ spring:
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 
-security:
-  oauth2:
-    client:
-      client-id: client
-      client-secret: secret
-      access-token-uri: http://tumo-cloud-auth:4000/oauth/token
-      user-authorization-uri: http://tumo-cloud-auth:4000/oauth/authorize
-    resource:
-      token-info-uri: http://tumo-cloud-auth:4000/oauth/check_token
+#security:
+#  oauth2:
+#    client:
+#      client-id: client
+#      client-secret: secret
+#      access-token-uri: http://tumo-cloud-auth:4000/oauth/token
+#      user-authorization-uri: http://tumo-cloud-auth:4000/oauth/authorize
+#    resource:
+#      token-info-uri: http://tumo-cloud-auth:4000/oauth/check_token
 
-mybatis-plus:
-  type-aliases-package: cn.tycoding.tumo.cloud.system.api.entity
-  mapper-locations: classpath:/mapper/*.xml
-  global-config:
-    banner: false
-    db-config:
-      id-type: auto
-      table-underline: true
-      logic-delete-value: 1
-      logic-not-delete-value: 0
-  configuration:
-    map-underscore-to-camel-case: true
+#mybatis-plus:
+#  type-aliases-package: cn.tycoding.tumo.cloud.system.api.entity
+#  mapper-locations: classpath:/mapper/*.xml
+#  global-config:
+#    banner: false
+#    db-config:
+#      id-type: auto
+#      table-underline: true
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
+#  configuration:
+#    map-underscore-to-camel-case: true

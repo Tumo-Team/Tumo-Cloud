@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.tycoding</groupId>
         <artifactId>Tumo-Cloud</artifactId>
         <version>1.0.0</version>
     </parent>
-    <artifactId>tumo-cloud-auth</artifactId>
+
+    <artifactId>tumo-cloud-demo</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- 模块依赖 -->
+        <!-- Common-Swagger模块 -->
         <dependency>
             <groupId>cn.tycoding</groupId>
             <artifactId>tumo-cloud-common-auth</artifactId>
@@ -24,14 +26,8 @@
         </dependency>
         <dependency>
             <groupId>cn.tycoding</groupId>
-            <artifactId>tumo-cloud-common-mybatis</artifactId>
+            <artifactId>tumo-cloud-common-swagger</artifactId>
             <version>1.0.0</version>
-        </dependency>
-
-        <!-- Thymeleaf -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <!-- Web -->
@@ -40,14 +36,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Mysql -->
+        <!-- Loadbalancer扩展 -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-
-        <!-- SpringCloud Alibaba -->
+        <!-- SpringCloud -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -68,10 +62,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>cn.tycoding.cloud.auth.TumoCloudAuthApp</mainClass>
+                    <mainClass>cn.tycoding.cloud.demo.TumoCloudDemoApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

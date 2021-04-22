@@ -1,9 +1,9 @@
 server:
-  port: 3000
+  port: 4100
 
 spring:
   application:
-    name: tumo-cloud-auth
+    name: tumo-cloud-demo
   main:
     allow-bean-definition-overriding: true
   profiles:
@@ -18,4 +18,3 @@ spring:
         file-extension: yml
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-

@@ -1,6 +1,5 @@
 package cn.tycoding.cloud.upms.biz.controller;
 
-import cn.tycoding.cloud.common.auth.constant.ApiConstant;
 import cn.tycoding.cloud.common.auth.utils.AuthUtil;
 import cn.tycoding.cloud.common.core.api.R;
 import cn.tycoding.cloud.common.core.utils.ExcelUtil;
@@ -41,7 +40,7 @@ public class SysUserController {
      * 为Feign服务，用户登录时Security需要存储用户信息
      */
     @GetMapping("/info/{username}")
-    public R loadUserInfo(@PathVariable("username") String username) {
+    public R<UserInfo> loadUserInfo(@PathVariable("username") String username) {
         return R.data(sysUserService.info(username));
     }
 

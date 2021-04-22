@@ -15,17 +15,7 @@
         <!-- 模块依赖 -->
         <dependency>
             <groupId>cn.tycoding</groupId>
-            <artifactId>tumo-cloud-common-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.tycoding</groupId>
             <artifactId>tumo-cloud-common-swagger</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.tycoding</groupId>
-            <artifactId>tumo-cloud-common-mybatis</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
