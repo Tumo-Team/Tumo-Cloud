@@ -3,7 +3,7 @@ package cn.tycoding.cloud.auth.endpoint;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.lang.Dict;
-import cn.tycoding.cloud.common.auth.constant.CaptchaConstant;
+import cn.tycoding.cloud.common.auth.constants.CaptchaConstant;
 import cn.tycoding.cloud.common.core.api.R;
 import cn.tycoding.cloud.common.core.constants.CacheConstant;
 import cn.tycoding.cloud.common.redis.component.TumoRedisComponent;

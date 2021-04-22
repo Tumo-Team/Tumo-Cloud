@@ -11,6 +11,13 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- common-core模块 -->
+        <dependency>
+            <groupId>cn.tycoding</groupId>
+            <artifactId>tumo-cloud-common-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- Loadbalancer扩展 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -36,11 +36,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Loadbalancer扩展 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
         <!-- SpringCloud -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

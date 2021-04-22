@@ -1,4 +1,4 @@
-package cn.tycoding.cloud.common.auth.constant;
+package cn.tycoding.cloud.common.auth.constants;
 
 /**
  * API接口相关常量

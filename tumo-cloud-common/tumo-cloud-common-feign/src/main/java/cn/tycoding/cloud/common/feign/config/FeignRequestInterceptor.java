@@ -1,18 +1,24 @@
 package cn.tycoding.cloud.common.feign.config;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.tycoding.cloud.common.core.constants.FeignConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Feign 请求过滤
+ *
  * @author tycoding
  * @since 2021/4/22
  */
@@ -24,18 +30,21 @@ public class FeignRequestInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate template) {
         HttpServletRequest httpServletRequest = getHttpServletRequest();
         if (httpServletRequest != null) {
-            Map<String, String> headers = getHeaders(httpServletRequest);
-            // 传递所有请求头,防止部分丢失
-            //此处也可以只传递认证的header
-            //requestTemplate.header("Authorization", request.getHeader("Authorization"));
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                template.header(entry.getKey(), entry.getValue());
+            Map<String, String> headers = getHeaderMap(httpServletRequest);
+
+            Collection<String> innerHeaders = template.headers().get(FeignConstant.INNER_KEY);
+            if (CollUtil.isNotEmpty(innerHeaders) && innerHeaders.contains(FeignConstant.INNER)) {
+                // Feign发起的服务间内部请求，内部无需授权
+                headers.remove(HttpHeaders.AUTHORIZATION.toLowerCase());
+                return;
             }
-            log.debug("FeignRequestInterceptor:{}", template.toString());
+            headers.forEach(template::header);
         }
     }
 
-
+    /**
+     * 从当前线程中获取Request对象
+     */
     private HttpServletRequest getHttpServletRequest() {
         try {
             return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -45,18 +54,31 @@ public class FeignRequestInterceptor implements RequestInterceptor {
     }
 
     /**
-     * 获取原请求头
+     * 自定义Feign远程接口传递的Header将写入到
+     * 从RequestTemplate对象中获取自定义的Feign Header
      */
-    private Map<String, String> getHeaders(HttpServletRequest request) {
-        Map<String, String> map = new LinkedHashMap<>();
-        Enumeration<String> enumeration = request.getHeaderNames();
-        if (enumeration != null) {
-            while (enumeration.hasMoreElements()) {
-                String key = enumeration.nextElement();
-                String value = request.getHeader(key);
-                map.put(key, value);
+    private Map<String, String> getInnerHeaderMap(RequestTemplate template) {
+        final Map<String, String> headerMap = new HashMap<>();
+        Map<String, Collection<String>> headers = template.headers();
+        headers.forEach((k, v) -> {
+            if (v.iterator().hasNext()) {
+                headerMap.put(k, v.iterator().next());
             }
+        });
+        return headerMap;
+    }
+
+    /**
+     * 获取请求头Header所有参数
+     */
+    public Map<String, String> getHeaderMap(HttpServletRequest request) {
+        final Map<String, String> headerMap = new HashMap<>();
+        final Enumeration<String> names = request.getHeaderNames();
+        String name;
+        while (names.hasMoreElements()) {
+            name = names.nextElement();
+            headerMap.put(name, request.getHeader(name));
         }
-        return map;
+        return headerMap;
     }
 }

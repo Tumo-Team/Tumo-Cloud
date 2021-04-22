@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.common.auth.service;
 
-import cn.tycoding.cloud.common.auth.constant.AuthConstant;
+import cn.tycoding.cloud.common.auth.constants.AuthConstant;
 import cn.tycoding.cloud.common.auth.dto.TumoUser;
 import cn.tycoding.cloud.common.auth.exception.TumoOAuth2Exception;
 import cn.tycoding.cloud.common.auth.utils.AuthUtil;

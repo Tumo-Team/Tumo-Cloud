@@ -1,4 +1,4 @@
-package cn.tycoding.cloud.common.auth.constant;
+package cn.tycoding.cloud.common.auth.constants;
 
 /**
  * Auth授权相关常量

@@ -1,5 +1,6 @@
 package cn.tycoding.cloud.demo.controller;
 
+import cn.tycoding.cloud.common.core.constants.FeignConstant;
 import cn.tycoding.cloud.demo.feign.RemoteUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,6 @@ public class DemoController {
     @GetMapping("/feign")
     @ApiOperation(value = "测试Feign服务调用接口（授权）")
     public Object feign() {
-        return remoteUserService.info("Tumo-Cloud");
+        return remoteUserService.info(FeignConstant.INNER, "Tumo-Cloud");
     }
 }

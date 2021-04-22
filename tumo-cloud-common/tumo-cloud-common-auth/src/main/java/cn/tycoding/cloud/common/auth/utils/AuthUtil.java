@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.common.auth.utils;
 
-import cn.tycoding.cloud.common.auth.constant.AuthConstant;
+import cn.tycoding.cloud.common.auth.constants.AuthConstant;
 import cn.tycoding.cloud.common.auth.dto.TumoUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;

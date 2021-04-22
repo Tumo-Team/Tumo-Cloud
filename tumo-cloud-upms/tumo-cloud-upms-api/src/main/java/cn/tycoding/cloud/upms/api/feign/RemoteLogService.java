@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.upms.api.feign;
 
-import cn.tycoding.cloud.common.core.constants.ServiceNameConstants;
+import cn.tycoding.cloud.common.core.constants.ServiceNameConstant;
 import cn.tycoding.cloud.common.core.api.R;
 import cn.tycoding.cloud.upms.api.entity.SysLog;
 import cn.tycoding.cloud.upms.api.feign.fallback.RemoteLogServiceFallbackImpl;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author tycoding
  * @date 2020/7/13
  */
-@FeignClient(value = ServiceNameConstants.UPMS_SERVICE, fallback = RemoteLogServiceFallbackImpl.class)
+@FeignClient(value = ServiceNameConstant.UPMS_SERVICE, fallback = RemoteLogServiceFallbackImpl.class)
 public interface RemoteLogService {
 
     @PostMapping("/log")

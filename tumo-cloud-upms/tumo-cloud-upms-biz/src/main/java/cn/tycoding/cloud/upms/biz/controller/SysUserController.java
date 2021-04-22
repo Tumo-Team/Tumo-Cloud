@@ -1,5 +1,6 @@
 package cn.tycoding.cloud.upms.biz.controller;
 
+import cn.tycoding.cloud.common.auth.annotation.Inner;
 import cn.tycoding.cloud.common.auth.utils.AuthUtil;
 import cn.tycoding.cloud.common.core.api.R;
 import cn.tycoding.cloud.common.core.utils.ExcelUtil;
@@ -39,6 +40,7 @@ public class SysUserController {
      * 根据用户名查询用户信息
      * 为Feign服务，用户登录时Security需要存储用户信息
      */
+    @Inner
     @GetMapping("/info/{username}")
     public R<UserInfo> loadUserInfo(@PathVariable("username") String username) {
         return R.data(sysUserService.info(username));

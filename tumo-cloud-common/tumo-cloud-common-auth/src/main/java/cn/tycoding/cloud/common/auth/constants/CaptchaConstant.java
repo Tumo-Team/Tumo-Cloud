@@ -1,4 +1,4 @@
-package cn.tycoding.cloud.common.auth.constant;
+package cn.tycoding.cloud.common.auth.constants;
 
 /**
  * 图形验证码相关常量

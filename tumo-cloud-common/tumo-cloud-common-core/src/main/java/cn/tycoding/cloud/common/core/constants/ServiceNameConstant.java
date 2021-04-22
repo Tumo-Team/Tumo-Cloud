@@ -6,7 +6,7 @@ package cn.tycoding.cloud.common.core.constants;
  * @author tycoding
  * @since 2021/2/25
  */
-public interface ServiceNameConstants {
+public interface ServiceNameConstant {
 
     /**
      * tumo-cloud-auth服务模块名称
