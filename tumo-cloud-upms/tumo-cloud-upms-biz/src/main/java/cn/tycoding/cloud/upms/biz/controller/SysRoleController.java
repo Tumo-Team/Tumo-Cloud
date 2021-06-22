@@ -1,116 +1,77 @@
 package cn.tycoding.cloud.upms.biz.controller;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.lang.tree.Tree;
 import cn.tycoding.cloud.common.core.api.R;
-import cn.tycoding.cloud.common.core.utils.ExcelUtil;
+import cn.tycoding.cloud.common.core.constants.ApiConstant;
 import cn.tycoding.cloud.common.log.annotation.ApiLog;
-import cn.tycoding.cloud.upms.api.entity.SysMenu;
+import cn.tycoding.cloud.upms.api.dto.SysRoleDTO;
 import cn.tycoding.cloud.upms.api.entity.SysRole;
-import cn.tycoding.cloud.upms.api.entity.SysUser;
 import cn.tycoding.cloud.upms.biz.service.SysRoleService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 角色表(Role)表控制层
  *
  * @author tycoding
- * @since 2020-10-14 14:45:25
+ * @since 2021/5/21
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/role")
+@RequestMapping(ApiConstant.API_UPMS_PREFIX + "/role")
 @Api(value = "角色表接口", tags = "角色表接口")
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;
 
-    @PostMapping("/filter/list")
+    @GetMapping("/list")
     @ApiOperation(value = "条件查询")
-    public R<List<SysRole>> list(@RequestBody SysRole sysRole) {
-        return R.data(sysRoleService.list(sysRole));
+    public R<List<SysRole>> list(SysRole sysRole) {
+        return R.ok(sysRoleService.list(new LambdaQueryWrapper<SysRole>().eq(SysRole::getStatus, true)));
     }
 
     @GetMapping("/tree")
     @ApiOperation(value = "获取角色Tree")
-    public R<List<Tree<Object>>> tree() {
-        return R.data(sysRoleService.tree());
-    }
-
-    @GetMapping("/base/tree")
-    @ApiOperation(value = "获取基础数据", notes = "此接口将获取角色表中id、name、ids等基础数据")
-    public R<Dict> baseTree() {
-        return R.data(sysRoleService.baseTree());
-    }
-
-    @GetMapping("/menu/list/{id}")
-    @ApiOperation(value = "根据角色ID查询权限")
-    public R getMenuListByRoleId(@PathVariable Long id) {
-        List<SysMenu> sysMenuList = sysRoleService.getMenuListByRoleId(id);
-        return R.data(sysMenuList.stream().map(SysMenu::getId).collect(Collectors.toList()));
-    }
-
-    @GetMapping("/{id}/user/list")
-    @ApiOperation(value = "获取所属用户列表")
-    public R<List<SysUser>> userList(@PathVariable Long id) {
-        return R.data(sysRoleService.userList(id));
-    }
-
-    @PostMapping("/checkName")
-    @ApiOperation(value = "校验名称是否已存在")
-    public R<Boolean> checkName(@RequestBody SysRole sysRole) {
-        return R.data(sysRoleService.checkName(sysRole));
+    public R<List<Tree<Object>>> tree(SysRole sysRole) {
+        return R.ok(sysRoleService.tree(sysRole));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "根据ID查询")
-    public R<SysRole> findById(@PathVariable Long id) {
-        return R.data(sysRoleService.getById(id));
+    public R<SysRoleDTO> findById(@PathVariable Long id) {
+        return R.ok(sysRoleService.findById(id));
     }
 
     @PostMapping
     @ApiLog("新增角色")
-    @ApiOperation(value = "新增")
-    public R add(@RequestBody SysRole sysRole) {
+    @ApiOperation(value = "新增角色")
+    @PreAuthorize("@auth.hasAuth('upms:role:add')")
+    public R add(@RequestBody SysRoleDTO sysRole) {
         sysRoleService.add(sysRole);
-        return R.ok();
-    }
-
-    @PostMapping("/permission/add/{id}")
-    @ApiLog("为角色分配权限")
-    @ApiOperation(value = "分配权限")
-    public R addPermission(@RequestBody List<Long> permissionList, @PathVariable Long id) {
-        sysRoleService.addPermission(permissionList, id);
         return R.ok();
     }
 
     @PutMapping
     @ApiLog("修改角色")
-    @ApiOperation(value = "修改")
-    public R update(@RequestBody SysRole sysRole) {
+    @ApiOperation(value = "修改角色")
+    @PreAuthorize("@auth.hasAuth('upms:role:update')")
+    public R update(@RequestBody SysRoleDTO sysRole) {
         sysRoleService.update(sysRole);
         return R.ok();
     }
 
     @DeleteMapping("/{id}")
     @ApiLog("删除角色")
-    @ApiOperation(value = "根据ID删除")
+    @ApiOperation(value = "删除角色")
+    @PreAuthorize("@auth.hasAuth('upms:role:delete')")
     public R delete(@PathVariable Long id) {
         sysRoleService.delete(id);
         return R.ok();
-    }
-
-    @GetMapping("/export")
-    @ApiOperation(value = "导出Excel")
-    public void export(HttpServletResponse response) {
-        List<SysRole> list = sysRoleService.list();
-        ExcelUtil.export(response, "角色数据", "角色数据", SysRole.class, list);
     }
 }

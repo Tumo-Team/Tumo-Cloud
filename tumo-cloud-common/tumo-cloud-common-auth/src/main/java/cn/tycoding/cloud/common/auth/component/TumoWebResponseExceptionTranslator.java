@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.common.auth.component;
 
-import cn.tycoding.cloud.common.auth.exception.TumoOAuth2Exception;
+import cn.tycoding.cloud.common.auth.exception.TumoAuth2Exception;
 import cn.tycoding.cloud.common.core.api.HttpCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import java.io.IOException;
 
 /**
- * 重写OAuth2异常处理
+ * 重写OAuth2异常处理器
  *
  * @author tycoding
  * @see org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator
@@ -26,6 +26,7 @@ import java.io.IOException;
  */
 @Component
 public class TumoWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
     @Override
@@ -73,10 +74,11 @@ public class TumoWebResponseExceptionTranslator implements WebResponseExceptionT
         if (code == HttpStatus.UNAUTHORIZED.value() || e instanceof InsufficientScopeException) {
             headers.set("WWW-Authenticate", String.format("%s %s", "Bearer", e.getSummary()));
         }
-        return new ResponseEntity<>(new TumoOAuth2Exception(e.getOAuth2ErrorCode(), code), headers, HttpStatus.valueOf(code));
+        TumoAuth2Exception auth2Exception = new TumoAuth2Exception(e.getMessage(), e.getCause(), code);
+        return new ResponseEntity<>(auth2Exception, headers, HttpStatus.valueOf(code));
     }
 
-    private static class UnauthorizedException extends TumoOAuth2Exception {
+    private static class UnauthorizedException extends TumoAuth2Exception {
 
         public UnauthorizedException(String msg, Throwable t) {
             super(msg);
@@ -93,7 +95,7 @@ public class TumoWebResponseExceptionTranslator implements WebResponseExceptionT
         }
     }
 
-    private static class ForbiddenException extends TumoOAuth2Exception {
+    private static class ForbiddenException extends TumoAuth2Exception {
 
         public ForbiddenException(String msg, Throwable t) {
             super(msg);
@@ -110,7 +112,7 @@ public class TumoWebResponseExceptionTranslator implements WebResponseExceptionT
         }
     }
 
-    private static class InvalidGrantException extends TumoOAuth2Exception {
+    private static class InvalidGrantException extends TumoAuth2Exception {
 
         public InvalidGrantException(String msg, Throwable e) {
             super(msg);
@@ -127,7 +129,7 @@ public class TumoWebResponseExceptionTranslator implements WebResponseExceptionT
         }
     }
 
-    private static class ServerErrorException extends TumoOAuth2Exception {
+    private static class ServerErrorException extends TumoAuth2Exception {
 
         public ServerErrorException(String msg, Throwable t) {
             super(msg);
@@ -144,7 +146,7 @@ public class TumoWebResponseExceptionTranslator implements WebResponseExceptionT
         }
     }
 
-    private static class MethodNotAllowedException extends TumoOAuth2Exception {
+    private static class MethodNotAllowedException extends TumoAuth2Exception {
 
         public MethodNotAllowedException(String msg, Throwable e) {
             super(msg);

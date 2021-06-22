@@ -3,19 +3,16 @@ package cn.tycoding.cloud.upms.api.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * 菜单表(Menu)实体类
  *
  * @author tycoding
- * @since 2020-10-14 14:45:50
+ * @since 2021/5/21
  */
 @Data
 @TableName("sys_menu")
@@ -26,28 +23,25 @@ public class SysMenu implements Serializable {
      * 主键
      */
     @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 资源名称
      */
     @ApiModelProperty(value = "菜单名称")
-    @NotNull(message = "菜单名称不能为空")
     private String name;
 
     /**
      * 父级ID
      */
     @ApiModelProperty(value = "父级ID")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
 
     /**
-     * 菜单路径
+     * 路由地址
      */
-    @ApiModelProperty(value = "菜单路径")
+    @ApiModelProperty(value = "路由地址")
     private String path;
 
     /**
@@ -75,15 +69,32 @@ public class SysMenu implements Serializable {
     private String component;
 
     /**
-     * 是否隐藏
+     * 排序
      */
-    @ApiModelProperty(value = "是否隐藏")
-    private Boolean hidden;
+    @ApiModelProperty(value = "排序")
+    private Integer orderNo;
 
     /**
-     * 是否是外链
+     * 是否禁用
      */
-    @ApiModelProperty(value = "是否是外链")
-    private Boolean frame;
+    @ApiModelProperty(value = "是否禁用")
+    private Boolean isDisabled;
 
+    /**
+     * 是否外链
+     */
+    @ApiModelProperty(value = "是否外链")
+    private Boolean isExt;
+
+    /**
+     * 是否缓存
+     */
+    @ApiModelProperty(value = "是否缓存")
+    private Boolean isKeepalive;
+
+    /**
+     * 是否缓存
+     */
+    @ApiModelProperty(value = "是否显示")
+    private Boolean isShow;
 }

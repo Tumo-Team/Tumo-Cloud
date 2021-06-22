@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * UPMS 用户、权限、角色体系模块
+ * 用户权限模块
  *
  * @author tycoding
- * @since 2021/3/3
+ * @since 2021/6/22
  */
 @EnableTumoFeignClients
 @SpringBootApplication

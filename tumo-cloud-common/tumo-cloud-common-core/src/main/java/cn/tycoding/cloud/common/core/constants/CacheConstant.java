@@ -4,22 +4,33 @@ package cn.tycoding.cloud.common.core.constants;
  * 缓存常量
  *
  * @author tycoding
- * @since 2021/2/25
+ * @since 2021/5/21
  */
 public interface CacheConstant {
 
     /**
      * 系统所有Redis缓存Key前缀 prefix
      */
-    String REDIS_KEY_PREFIX = "tumo-cloud:";
+    String REDIS_KEY_PREFIX = "tumo-boot:";
 
     /**
-     * OAuth Redis Key
+     * OAuth缓存前缀
      */
-    String OAUTH_REDIS_KEY = REDIS_KEY_PREFIX + "oauth:";
+    String OAUTH_PREFIX = REDIS_KEY_PREFIX + "auth:oauth:";
 
     /**
-     * Captcha Redis Key
+     * 验证码缓存前缀
      */
-    String CAPTCHA_REDIS_KEY = REDIS_KEY_PREFIX + "auth:captcha:";
+    String CAPTCHA_PREFIX = REDIS_KEY_PREFIX + "auth:captcha:";
+
+    /**
+     * 用户信息缓存
+     */
+    String USER_DETAIL_KEY = REDIS_KEY_PREFIX + "user_details";
+
+    /**
+     * 菜单权限缓存
+     */
+    String MENU_DETAIL_KEY = REDIS_KEY_PREFIX + "menu_details";
 }
+

@@ -1,9 +1,8 @@
 package cn.tycoding.cloud.upms.biz.service;
 
-import cn.tycoding.cloud.common.mybatis.config.constants.QueryPage;
+import cn.tycoding.cloud.common.core.api.QueryPage;
 import cn.tycoding.cloud.upms.api.dto.SysUserDTO;
 import cn.tycoding.cloud.upms.api.dto.UserInfo;
-import cn.tycoding.cloud.upms.api.entity.SysRole;
 import cn.tycoding.cloud.upms.api.entity.SysUser;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -14,7 +13,7 @@ import java.util.List;
  * 用户表(User)表服务接口
  *
  * @author tycoding
- * @since 2020-10-14 14:32:27
+ * @since 2021/5/21
  */
 public interface SysUserService extends IService<SysUser> {
 
@@ -26,17 +25,12 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 根据ID查询
      */
-    SysUserDTO findById(Long id);
+    SysUserDTO findById(Long userId);
 
     /**
      * 根据用户名封装：用户信息、角色、部门、权限
      */
     UserInfo info(String username);
-
-    /**
-     * 根据用户ID查询角色
-     */
-    List<SysRole> roleList(Long id);
 
     /**
      * 条件查询
@@ -46,22 +40,17 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 分页、条件查询
      */
-    IPage<SysUserDTO> list(SysUserDTO user, QueryPage queryPage);
+    IPage<SysUserDTO> page(SysUserDTO user, QueryPage queryPage);
 
     /**
      * 校验用户名是否存在
      */
-    boolean checkName(SysUser sysUser);
+    boolean checkName(SysUserDTO sysUser);
 
     /**
      * 新增
      */
     void add(SysUserDTO user);
-
-    /**
-     * 分配角色
-     */
-    void addRole(List<Long> roleList, Long id);
 
     /**
      * 修改
@@ -71,10 +60,10 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 删除
      */
-    void delete(Long id);
+    void delete(Long id, String username);
 
     /**
      * 重置密码
      */
-    void resetPass(SysUser sysUser);
+    void reset(Long id, String password, String username);
 }

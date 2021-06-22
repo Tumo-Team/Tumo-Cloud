@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.upms.biz.service.impl;
 
-import cn.tycoding.cloud.common.mybatis.config.constants.QueryPage;
+import cn.tycoding.cloud.common.core.api.QueryPage;
 import cn.tycoding.cloud.upms.api.entity.SysLog;
 import cn.tycoding.cloud.upms.biz.mapper.SysLogMapper;
 import cn.tycoding.cloud.upms.biz.service.SysLogService;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 系统日志表(Log)表服务实现类
  *
  * @author tycoding
- * @since 2020-10-14 16:53:44
+ * @since 2021/5/21
  */
 @Service
 @RequiredArgsConstructor

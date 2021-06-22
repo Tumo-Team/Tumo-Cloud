@@ -3,20 +3,17 @@ package cn.tycoding.cloud.upms.api.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * 角色表(Role)实体类
  *
  * @author tycoding
- * @since 2020-10-14 14:45:22
+ * @since 2021/5/21
  */
 @Data
 @TableName("sys_role")
@@ -28,22 +25,19 @@ public class SysRole implements Serializable {
      * 主键
      */
     @ApiModelProperty(value = "角色ID")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 上级节点
      */
     @ApiModelProperty(value = "上级节点")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
 
     /**
      * 角色名称
      */
     @ApiModelProperty(value = "角色名称")
-    @NotNull(message = "角色名称不能为空")
     private String name;
 
     /**
@@ -57,4 +51,10 @@ public class SysRole implements Serializable {
      */
     @ApiModelProperty(value = "描述")
     private String des;
+
+    /**
+     * 状态
+     */
+    @ApiModelProperty(value = "状态")
+    private Boolean status;
 }

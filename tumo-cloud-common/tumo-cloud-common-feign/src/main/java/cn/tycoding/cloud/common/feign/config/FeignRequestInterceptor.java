@@ -1,7 +1,7 @@
 package cn.tycoding.cloud.common.feign.config;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.tycoding.cloud.common.core.constants.FeignConstant;
+import cn.tycoding.cloud.common.feign.constants.FeignConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

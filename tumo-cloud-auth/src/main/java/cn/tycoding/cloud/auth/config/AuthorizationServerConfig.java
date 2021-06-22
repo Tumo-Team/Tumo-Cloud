@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -19,10 +20,10 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import javax.sql.DataSource;
 
 /**
- * 认证服务器
+ * Oauth2 认证服务器配置（负责Token层面处理）
  *
  * @author tycoding
- * @since 2021/2/25
+ * @since 2021/5/21
  */
 @Configuration
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore tokenStore() {
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix(CacheConstant.OAUTH_REDIS_KEY);
+        tokenStore.setPrefix(CacheConstant.OAUTH_PREFIX);
         return tokenStore;
     }
 
@@ -48,6 +49,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 .tokenStore(tokenStore())
                 .authenticationManager(authenticationManager)
                 .exceptionTranslator(new TumoWebResponseExceptionTranslator());

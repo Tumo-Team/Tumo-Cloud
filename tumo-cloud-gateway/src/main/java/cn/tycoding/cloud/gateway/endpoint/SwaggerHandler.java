@@ -10,6 +10,12 @@ import springfox.documentation.swagger.web.*;
 
 import java.util.Optional;
 
+/**
+ * Knife4j 官方文档所需接口
+ *
+ * @author tycoding
+ * @since 2021/6/22
+ */
 @RestController
 public class SwaggerHandler {
 

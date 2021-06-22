@@ -19,11 +19,6 @@ public interface CommonConstant {
     String CONTENT_TYPE = "application/json; charset=utf-8";
 
     /**
-     * Swagger Base Packages
-     */
-    String BASE_PACKAGE = "cn.tycoding.boot";
-
-    /**
      * 菜单类型：menu
      */
     String MENU_TYPE_MENU = "menu";
@@ -37,4 +32,9 @@ public interface CommonConstant {
      * 菜单：默认Icon图标
      */
     String MENU_ICON = "alert";
+
+    /**
+     * 默认用户头像路径
+     */
+    String DEFAULT_AVATAR = "/upload/default.png";
 }

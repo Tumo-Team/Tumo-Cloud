@@ -1,22 +1,26 @@
 package cn.tycoding.cloud.upms.biz.service.impl;
 
-import cn.tycoding.cloud.common.auth.exception.TumoOAuth2Exception;
+import cn.tycoding.cloud.common.auth.exception.TumoAuth2Exception;
 import cn.tycoding.cloud.common.auth.utils.AuthUtil;
-import cn.tycoding.cloud.common.mybatis.config.constants.QueryPage;
+import cn.tycoding.cloud.common.core.api.QueryPage;
+import cn.tycoding.cloud.common.core.constants.CacheConstant;
+import cn.tycoding.cloud.common.core.constants.CommonConstant;
 import cn.tycoding.cloud.common.core.utils.BeanUtil;
+import cn.tycoding.cloud.common.core.utils.Is;
+import cn.tycoding.cloud.common.log.exception.ServiceException;
+import cn.tycoding.cloud.common.mybatis.utils.MybatisUtil;
 import cn.tycoding.cloud.upms.api.dto.SysUserDTO;
 import cn.tycoding.cloud.upms.api.dto.UserInfo;
 import cn.tycoding.cloud.upms.api.entity.*;
 import cn.tycoding.cloud.upms.biz.mapper.SysUserMapper;
-import cn.tycoding.cloud.upms.biz.mapper.SysUserRoleMapper;
 import cn.tycoding.cloud.upms.biz.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,18 +34,16 @@ import java.util.stream.Collectors;
  * 用户表(User)表服务实现类
  *
  * @author tycoding
- * @since 2020-10-14 14:32:27
+ * @since 2021/5/21
  */
 @Service
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
-    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     private final SysRoleService sysRoleService;
     private final SysMenuService sysMenuService;
     private final SysDeptService sysDeptService;
     private final SysUserRoleService sysUserRoleService;
-    private final SysUserRoleMapper sysUserRoleMapper;
 
     @Override
     public SysUser findByName(String username) {
@@ -49,22 +51,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUserDTO findById(Long id) {
-        SysUser sysUser = baseMapper.selectById(id);
+    public SysUserDTO findById(Long userId) {
+        SysUser sysUser = baseMapper.selectById(userId);
         SysUserDTO dto = BeanUtil.copy(sysUser, SysUserDTO.class);
-        SysDept sysDept = sysDeptService.getById(sysUser.getDeptId());
-        dto.setDeptName(sysDept == null ? null : sysDept.getName());
+        dto.setPassword(null);
+        List<Long> roleIds = sysUserRoleService.getRoleListByUserId(userId).stream().map(SysRole::getId).collect(Collectors.toList());
+        dto.setRoleIds(roleIds);
         return dto;
     }
 
     @Override
+    @Cacheable(value = CacheConstant.USER_DETAIL_KEY, key = "#username")
     public UserInfo info(String username) {
         return this.build(new UserInfo().setUser(this.findByName(username)));
-    }
-
-    @Override
-    public List<SysRole> roleList(Long id) {
-        return sysUserRoleMapper.getRoleListByUserId(id);
     }
 
     /**
@@ -72,41 +71,51 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     private UserInfo build(UserInfo userInfo) {
         if (userInfo == null || userInfo.getUser() == null) {
-            throw new RuntimeException("没有查询用用户信息");
+            throw new ServiceException("没有查询用用户信息");
         }
         //获取用户角色列表
         List<SysRole> sysRoleList = sysRoleService.findRolesByUserId(userInfo.getUser().getId());
         if (sysRoleList.size() == 0) {
-            throw new TumoOAuth2Exception(AuthUtil.NOT_ROLE_ERROR);
+            throw new TumoAuth2Exception(AuthUtil.NOT_ROLE_ERROR);
         }
 
         //获取用户权限列表
-        List<SysMenu> sysMenuList = sysMenuService.getUserMenuList(sysRoleList);
-        Set<String> menuSet = sysMenuList
+        List<SysMenu> menuList = new ArrayList<>();
+        long isAdmin = sysRoleList.stream().filter(role -> AuthUtil.ADMINISTRATOR.equals(role.getAlias())).count();
+        if (isAdmin > 0) {
+            // 包含了超级管理员角色，拥有所有权限
+            menuList = sysMenuService.list();
+        } else {
+            // 根据角色筛选权限
+            menuList = sysMenuService.getUserMenuList(sysRoleList);
+        }
+        Set<String> perms = menuList
                 .stream()
-                .filter(perm -> (perm.getPerms() != null && !"".equals(perm.getPerms())))
                 .map(SysMenu::getPerms)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toSet());
 
         //获取用户部门信息
         SysDept sysDept = sysDeptService.getById(userInfo.getUser().getDeptId());
 
-        return userInfo.setRoles(sysRoleList).setPermissions(menuSet).setDept(sysDept);
+        return userInfo.setRoles(sysRoleList).setPerms(perms).setDept(sysDept);
     }
 
     @Override
     public List<SysUser> list(SysUser sysUser) {
-        return baseMapper.selectList(new LambdaQueryWrapper<SysUser>().like(SysUser::getUsername, sysUser.getUsername()));
+        List<SysUser> list = baseMapper.selectList(new LambdaQueryWrapper<SysUser>()
+                .like(StringUtils.isNotEmpty(sysUser.getUsername()), SysUser::getUsername, sysUser.getUsername()));
+        list.forEach(i -> i.setPassword(null));
+        return list;
     }
 
     @Override
-    public IPage<SysUserDTO> list(SysUserDTO user, QueryPage queryPage) {
-        IPage<SysUser> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
-        return baseMapper.list(page, user, AuthUtil.getUserId());
+    public IPage<SysUserDTO> page(SysUserDTO user, QueryPage queryPage) {
+        return baseMapper.page(MybatisUtil.wrap(user, queryPage), user, AuthUtil.getUserId());
     }
 
     @Override
-    public boolean checkName(SysUser sysUser) {
+    public boolean checkName(SysUserDTO sysUser) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, sysUser.getUsername());
         if (sysUser.getId() != null && sysUser.getId() != 0) {
             queryWrapper.ne(sysUser.getId() != null, SysUser::getId, sysUser.getId());
@@ -117,21 +126,37 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void add(SysUserDTO user) {
+        if (!checkName(user)) {
+            throw new ServiceException("该用户名已存在，请重新输入！");
+        }
+
         user.setCreateTime(new Date());
-        PASSWORD_ENCODER.encode(user.getPassword());
+        user.setPassword(AuthUtil.encode(user.getPassword()));
+
+        // 设置默认头像
+        if (StringUtils.isEmpty(user.getAvatar())) {
+            user.setAvatar(CommonConstant.DEFAULT_AVATAR);
+        }
+
+        // 设置角色
+        if (Is.isEmpty(user.getRoleIds())) {
+            throw new ServiceException("用户角色不能为空");
+        }
         baseMapper.insert(user);
+        addRole(user);
     }
 
-    @Override
-    public void addRole(List<Long> roleList, Long id) {
-        if (roleList != null) {
+    private void addRole(SysUserDTO user) {
+        List<Long> roleIds = user.getRoleIds();
+        Long userId = user.getId();
+        if (roleIds != null) {
             // 删除之前用户与角色表之前的关联，并重新建立关联
-            sysUserRoleService.deleteUserRolesByUserId(id);
+            sysUserRoleService.deleteUserRolesByUserId(userId);
 
             // 新增用户角色关联
             List<SysUserRole> list = new ArrayList<>();
-            roleList.forEach(roleId -> list.add(new SysUserRole()
-                    .setUserId(id)
+            roleIds.forEach(roleId -> list.add(new SysUserRole()
+                    .setUserId(userId)
                     .setRoleId(roleId)));
             sysUserRoleService.saveBatch(list);
         }
@@ -139,23 +164,36 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheConstant.USER_DETAIL_KEY, key = "#user.username")
     public void update(SysUserDTO user) {
+        if (!checkName(user)) {
+            throw new ServiceException("该用户名已存在，请重新输入！");
+        }
+
+        // 设置默认头像
+        if (StringUtils.isEmpty(user.getAvatar())) {
+            user.setAvatar(CommonConstant.DEFAULT_AVATAR);
+        }
         user.setPassword(null);
         baseMapper.updateById(user);
+        addRole(user);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
+    @CacheEvict(value = CacheConstant.USER_DETAIL_KEY, key = "#username")
+    public void delete(Long id, String username) {
         baseMapper.deleteById(id);
         sysUserRoleService.deleteUserRolesByUserId(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void resetPass(SysUser sysUser) {
-        baseMapper.updateById(new SysUser()
-                .setId(sysUser.getId())
-                .setPassword(PASSWORD_ENCODER.encode(sysUser.getPassword())));
+    @CacheEvict(value = CacheConstant.USER_DETAIL_KEY, key = "#username")
+    public void reset(Long id, String password, String username) {
+        SysUser user = new SysUser();
+        user.setId(id);
+        user.setPassword(AuthUtil.encode(password));
+        baseMapper.updateById(user);
     }
 }

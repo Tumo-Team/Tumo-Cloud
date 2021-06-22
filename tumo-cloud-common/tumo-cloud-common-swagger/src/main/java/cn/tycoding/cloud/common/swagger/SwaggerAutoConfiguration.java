@@ -1,7 +1,6 @@
 package cn.tycoding.cloud.common.swagger;
 
 import cn.tycoding.cloud.common.core.constants.ApiConstant;
-import cn.tycoding.cloud.common.core.constants.ApiPrefixConstant;
 import cn.tycoding.cloud.common.swagger.properties.SwaggerProperties;
 import cn.tycoding.cloud.common.swagger.utils.SwaggerUtil;
 import com.google.common.collect.Lists;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.OAuthBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -21,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Swagger 配置注入
+ *
  * @author tycoding
- * @since 2020/12/25
+ * @since 2021/6/22
  */
 @Order
 @Configuration

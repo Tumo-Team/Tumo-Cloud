@@ -1,8 +1,6 @@
 package cn.tycoding.cloud.upms.api.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,7 +11,7 @@ import java.io.Serializable;
  * 用户角色关联表(UserRole)实体类
  *
  * @author tycoding
- * @since 2020-10-14 14:44:42
+ * @since 2021/5/21
  */
 @Data
 @TableName("sys_user_role")
@@ -25,13 +23,11 @@ public class SysUserRole implements Serializable {
      * 用户ID
      */
     @ApiModelProperty(value = "用户ID")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long userId;
 
     /**
      * 角色ID
      */
     @ApiModelProperty(value = "角色ID")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long roleId;
 }

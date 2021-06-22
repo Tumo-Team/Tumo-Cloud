@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.demo.controller;
 
-import cn.tycoding.cloud.common.core.constants.FeignConstant;
+import cn.tycoding.cloud.common.feign.constants.FeignConstant;
 import cn.tycoding.cloud.demo.feign.RemoteUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

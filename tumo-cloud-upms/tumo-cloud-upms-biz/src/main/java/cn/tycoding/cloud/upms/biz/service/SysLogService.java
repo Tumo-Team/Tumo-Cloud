@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.upms.biz.service;
 
-import cn.tycoding.cloud.common.mybatis.config.constants.QueryPage;
+import cn.tycoding.cloud.common.core.api.QueryPage;
 import cn.tycoding.cloud.upms.api.entity.SysLog;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 系统日志表(Log)表服务接口
  *
  * @author tycoding
- * @since 2020-10-14 16:53:42
+ * @since 2021/5/21
  */
 public interface SysLogService extends IService<SysLog> {
 
@@ -27,4 +27,3 @@ public interface SysLogService extends IService<SysLog> {
      */
     void delete(Long id);
 }
-

@@ -5,19 +5,28 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 统一结果集封装
+ * 统一定义请求响应数据格式
  *
  * @author tycoding
- * @since 2021/2/25
+ * @since 2021/5/21
  */
 @Data
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 状态码
+     */
     private int code = HttpCode.SUCCESS.code;
 
+    /**
+     * 返回消息
+     */
     private String msg = HttpCode.SUCCESS.msg;
 
+    /**
+     * 承载数据
+     */
     private T data;
 
     public R() {
@@ -29,11 +38,11 @@ public class R<T> implements Serializable {
         this.msg = msg;
     }
 
-    public static <T> R<T> data(T data) {
+    public static <T> R<T> ok(T data) {
         return new R(data);
     }
 
-    public static <T> R<T> data(T data, HttpCode httpCode) {
+    public static <T> R<T> ok(T data, HttpCode httpCode) {
         return new R(data, httpCode);
     }
 
@@ -51,6 +60,10 @@ public class R<T> implements Serializable {
 
     public static <T> R<T> fail(String msg) {
         return new R<>(HttpCode.FAILURE.getCode(), msg);
+    }
+
+    public static <T> R<T> fail(int code, String msg) {
+        return new R<>(code, msg);
     }
 
     public static <T> R<T> fail(HttpCode httpCode) {

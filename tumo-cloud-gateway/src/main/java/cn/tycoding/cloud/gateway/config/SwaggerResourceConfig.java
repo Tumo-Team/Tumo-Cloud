@@ -13,6 +13,12 @@ import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Knife4j 官方提供，配合Gateway扫描服务接口
+ *
+ * @author tycoding
+ * @since 2021/6/22
+ */
 @Slf4j
 @Component
 @Primary

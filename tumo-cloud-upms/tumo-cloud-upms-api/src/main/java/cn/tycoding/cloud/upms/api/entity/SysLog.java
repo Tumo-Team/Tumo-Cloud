@@ -3,14 +3,10 @@ package cn.tycoding.cloud.upms.api.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +15,7 @@ import java.util.Date;
  * 系统日志表(Log)实体类
  *
  * @author tycoding
- * @since 2020-10-14 16:53:40
+ * @since 2021/5/21
  */
 @Data
 @TableName("sys_log")
@@ -32,21 +28,20 @@ public class SysLog implements Serializable {
      * 主键
      */
     @ApiModelProperty(value = "编号")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
-
-    /**
-     * 日志类型
-     */
-    @ApiModelProperty(value = "日志类型")
-    private Integer type;
 
     /**
      * 操作用户
      */
     @ApiModelProperty(value = "操作用户")
     private String username;
+
+    /**
+     * 日志类型
+     */
+    @ApiModelProperty(value = "日志类型")
+    private Integer type;
 
     /**
      * 操作描述
@@ -94,7 +89,5 @@ public class SysLog implements Serializable {
      * 操作时间
      */
     @ApiModelProperty(value = "操作时间")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 }

@@ -1,10 +1,8 @@
 package cn.tycoding.cloud.upms.biz.service;
 
-import cn.hutool.core.lang.Dict;
 import cn.hutool.core.lang.tree.Tree;
-import cn.tycoding.cloud.upms.api.entity.SysMenu;
+import cn.tycoding.cloud.upms.api.dto.SysRoleDTO;
 import cn.tycoding.cloud.upms.api.entity.SysRole;
-import cn.tycoding.cloud.upms.api.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.List;
  * 角色表(Role)表服务接口
  *
  * @author tycoding
- * @since 2020-10-14 14:45:23
+ * @since 2021/5/21
  */
 public interface SysRoleService extends IService<SysRole> {
 
@@ -23,53 +21,27 @@ public interface SysRoleService extends IService<SysRole> {
     List<SysRole> findRolesByUserId(Long id);
 
     /**
-     * 条件查询
-     */
-    List<SysRole> list(SysRole sysRole);
-
-    /**
      * 获取角色Tree集合
      */
-    List<Tree<Object>> tree();
+    List<Tree<Object>> tree(SysRole sysRole);
 
     /**
-     * 此接口将获取角色表中id、name、ids等基础数据
+     * 根据ID查询
      */
-    Dict baseTree();
+    SysRoleDTO findById(Long roleId);
 
     /**
-     * 获取指定角色ID下的所有菜单权限
+     * 新增角色
      */
-    List<SysMenu> getMenuListByRoleId(Long id);
+    void add(SysRoleDTO sysRole);
 
     /**
-     * 获取所属用户列表
+     * 修改角色
      */
-    List<SysUser> userList(Long id);
-
-    /**
-     * 校验名称是否存在
-     */
-    boolean checkName(SysRole sysRole);
-
-    /**
-     * 新增
-     */
-    void add(SysRole sysRole);
-
-    /**
-     * 分配权限
-     */
-    void addPermission(List<Long> permissionList, Long id);
-
-    /**
-     * 修改
-     */
-    void update(SysRole sysRole);
+    void update(SysRoleDTO sysRole);
 
     /**
      * 删除
      */
     void delete(Long id);
-
 }

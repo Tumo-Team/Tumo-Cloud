@@ -14,19 +14,13 @@
         <!-- 模块依赖 -->
         <dependency>
             <groupId>cn.tycoding</groupId>
-            <artifactId>tumo-cloud-common-redis</artifactId>
+            <artifactId>tumo-cloud-common-log</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>cn.tycoding</groupId>
-            <artifactId>tumo-cloud-upms-api</artifactId>
+            <artifactId>tumo-cloud-common-redis</artifactId>
             <version>1.0.0</version>
-        </dependency>
-
-        <!-- Security-OAuth2 -->
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
         </dependency>
     </dependencies>
 

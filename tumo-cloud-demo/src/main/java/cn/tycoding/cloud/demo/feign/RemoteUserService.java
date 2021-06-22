@@ -1,7 +1,7 @@
 package cn.tycoding.cloud.demo.feign;
 
-import cn.tycoding.cloud.common.core.constants.FeignConstant;
-import cn.tycoding.cloud.common.core.constants.ServiceNameConstant;
+import cn.tycoding.cloud.common.feign.constants.FeignConstant;
+import cn.tycoding.cloud.common.feign.constants.ServiceNameConstant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

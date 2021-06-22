@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.tycoding.cloud.common.log.SysLogAutoConfiguration, \
-  cn.tycoding.cloud.common.log.utils.SpringContextHolder
+  cn.tycoding.cloud.common.log.SysLogAutoConfiguration

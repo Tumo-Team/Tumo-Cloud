@@ -1,6 +1,6 @@
 package cn.tycoding.cloud.upms.api.feign;
 
-import cn.tycoding.cloud.common.core.constants.ServiceNameConstant;
+import cn.tycoding.cloud.common.feign.constants.ServiceNameConstant;
 import cn.tycoding.cloud.common.core.api.R;
 import cn.tycoding.cloud.upms.api.entity.SysLog;
 import cn.tycoding.cloud.upms.api.feign.fallback.RemoteLogServiceFallbackImpl;
@@ -10,14 +10,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 /**
- * Feign系统日志远程调用接口
+ * Feign远程服务接口，对应UPMS模块接口
  *
  * @author tycoding
- * @date 2020/7/13
+ * @since 2021/6/22
  */
 @FeignClient(value = ServiceNameConstant.UPMS_SERVICE, fallback = RemoteLogServiceFallbackImpl.class)
 public interface RemoteLogService {
 
+    /**
+     * 保存日志接口
+     *
+     * @param sysLog 日志信息
+     * @return 操作结果
+     */
     @PostMapping("/log")
     R saveLog(@RequestBody SysLog sysLog);
 }

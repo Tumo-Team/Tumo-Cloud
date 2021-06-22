@@ -5,14 +5,14 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.tycoding.cloud.common.log.exception.ServiceException;
 import cn.tycoding.cloud.upms.api.entity.SysDept;
-import cn.tycoding.cloud.upms.api.entity.SysUser;
 import cn.tycoding.cloud.upms.biz.mapper.SysDeptMapper;
-import cn.tycoding.cloud.upms.biz.mapper.SysUserMapper;
 import cn.tycoding.cloud.upms.biz.service.SysDeptService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,17 +22,17 @@ import java.util.List;
  * 部门表(Dept)表服务实现类
  *
  * @author tycoding
- * @since 2020-10-14 14:47:26
+ * @since 2021/5/21
  */
 @Service
 @RequiredArgsConstructor
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
-    private final SysUserMapper sysUserMapper;
-
     @Override
     public List<SysDept> list(SysDept sysDept) {
-        return baseMapper.selectList(new LambdaQueryWrapper<SysDept>().like(sysDept.getName() != null, SysDept::getName, sysDept.getName()));
+        return baseMapper.selectList(new LambdaQueryWrapper<SysDept>()
+                .orderByAsc(SysDept::getOrderNo)
+                .like(StringUtils.isNotEmpty(sysDept.getName()), SysDept::getName, sysDept.getName()));
     }
 
     @Override
@@ -43,52 +43,15 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         List<TreeNode<Object>> nodeList = CollUtil.newArrayList();
         sysDeptList.forEach(t -> {
             TreeNode<Object> node = new TreeNode<>(
-                    t.getId().toString(),
-                    t.getParentId().toString(),
+                    t.getId(),
+                    t.getParentId(),
                     t.getName(),
                     0
             );
-            node.setExtra(Dict.create().set("des", t.getDes()));
+            node.setExtra(Dict.create().set("orderNo", t.getOrderNo()).set("des", t.getDes()));
             nodeList.add(node);
         });
-        return TreeUtil.build(nodeList, "0");
-    }
-
-    @Override
-    public List<SysUser> userList(Long id) {
-        return sysUserMapper.selectList(new LambdaQueryWrapper<SysUser>().eq(SysUser::getDeptId, id).select(
-                SysUser::getId,
-                SysUser::getUsername,
-                SysUser::getAvatar,
-                SysUser::getSex,
-                SysUser::getPhone,
-                SysUser::getEmail,
-                SysUser::getStatus
-        ));
-    }
-
-    @Override
-    public boolean checkName(SysDept sysDept) {
-        LambdaQueryWrapper<SysDept> queryWrapper = new LambdaQueryWrapper<SysDept>().eq(SysDept::getName, sysDept.getName());
-        if (sysDept.getId() != null && sysDept.getId() != 0) {
-            queryWrapper.ne(SysDept::getId, sysDept.getId());
-        }
-        return baseMapper.selectList(queryWrapper).size() <= 0;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void add(SysDept sysDept) {
-        if (sysDept.getParentId() == null) {
-            sysDept.setParentId(0L);
-        }
-        baseMapper.insert(sysDept);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(SysDept sysDept) {
-        baseMapper.updateById(sysDept);
+        return TreeUtil.build(nodeList, 0L);
     }
 
     @Override
@@ -96,7 +59,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public void delete(Long id) {
         List<SysDept> list = baseMapper.selectList(new LambdaQueryWrapper<SysDept>().eq(SysDept::getParentId, id));
         if (list.size() > 0) {
-            throw new RuntimeException("该部门包含子节点，不能删除");
+            throw new ServiceException("该部门包含子节点，不能删除");
         }
         baseMapper.deleteById(id);
     }
