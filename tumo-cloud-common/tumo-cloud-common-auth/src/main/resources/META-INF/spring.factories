@@ -1,3 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.tycoding.cloud.common.auth.aspect.InnerAspect
+  cn.tycoding.cloud.common.auth.aspect.InnerAspect,\
+  cn.tycoding.cloud.common.auth.service.UserDetailsServiceImpl,\
+  cn.tycoding.cloud.common.auth.component.ResourceAuthExceptionEntryPoint,\
+  cn.tycoding.cloud.common.auth.AuthAutoConfiguration
 

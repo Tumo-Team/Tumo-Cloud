@@ -1,14 +1,14 @@
 package cn.tycoding.cloud.common.auth.service;
 
-import cn.tycoding.cloud.common.core.constants.AuthConstant;
 import cn.tycoding.cloud.common.auth.dto.TumoUser;
 import cn.tycoding.cloud.common.auth.exception.TumoAuth2Exception;
 import cn.tycoding.cloud.common.auth.utils.AuthUtil;
+import cn.tycoding.cloud.common.core.constants.AuthConstant;
 import cn.tycoding.cloud.common.core.constants.CacheConstant;
 import cn.tycoding.cloud.upms.api.dto.UserInfo;
 import cn.tycoding.cloud.upms.api.entity.SysRole;
 import cn.tycoding.cloud.upms.api.feign.RemoteUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,13 +29,12 @@ import java.util.Set;
  * @since 2021/2/25
  */
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private RemoteUserService userService;
+    private final RemoteUserService userService;
 
-    @Autowired
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
     /**
      * 加载用户信息，在这里可做登录用户的权限、角色判断

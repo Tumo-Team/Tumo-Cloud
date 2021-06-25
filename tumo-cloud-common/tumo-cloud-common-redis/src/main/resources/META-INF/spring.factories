@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.tycoding.cloud.common.swagger.SwaggerAutoConfiguration
+  cn.tycoding.cloud.common.redis.RedisAutoConfiguration

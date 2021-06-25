@@ -3,7 +3,7 @@ package cn.tycoding.cloud.common.swagger;
 import cn.tycoding.cloud.common.core.constants.ApiConstant;
 import cn.tycoding.cloud.common.swagger.properties.SwaggerProperties;
 import cn.tycoding.cloud.common.swagger.utils.SwaggerUtil;
-import com.google.common.collect.Lists;
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +14,10 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,6 +28,8 @@ import java.util.List;
  */
 @Order
 @Configuration
+@EnableKnife4j
+@EnableSwagger2WebMvc
 @EnableConfigurationProperties({SwaggerProperties.class})
 public class SwaggerAutoConfiguration {
     private final static String BASE_PACKAGE = "cn.tycoding.cloud";
@@ -41,29 +45,25 @@ public class SwaggerAutoConfiguration {
                 .select()
                 .apis(SwaggerUtil.basePackage(swagger.getBasePackages()))
                 .build()
-                .securityContexts(securityContexts(swagger))
-                .securitySchemes(securitySchemes());
+                .securityContexts(Collections.singletonList(securityContexts(swagger)))
+                .securitySchemes(Collections.singletonList(securitySchemes()));
     }
 
-    private List<SecurityContext> securityContexts(SwaggerProperties swagger) {
+    private SecurityContext securityContexts(SwaggerProperties swagger) {
         List<AuthorizationScope> scopes = new ArrayList<>();
         swagger.getAuthorizationScopeList().forEach(s -> {
             scopes.add(new AuthorizationScope(s.getScope(), s.getDescription()));
         });
 
         SecurityReference securityReference = new SecurityReference("oauth2", scopes.toArray(new AuthorizationScope[]{}));
-        return Lists.newArrayList(SecurityContext
-                .builder()
-                .securityReferences(Lists.newArrayList(securityReference))
-                .build());
+        return SecurityContext.builder().securityReferences(Collections.singletonList(securityReference)).build();
     }
 
-    private ArrayList<SecurityScheme> securitySchemes() {
+    private OAuth securitySchemes() {
         List<GrantType> grantTypes = new ArrayList<>();
         ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant(ApiConstant.API_OAUTH_TOKEN);
         grantTypes.add(resourceOwnerPasswordCredentialsGrant);
-        OAuth oAuth = new OAuthBuilder().name("oauth2").grantTypes(grantTypes).build();
-        return Lists.newArrayList(oAuth);
+        return new OAuthBuilder().name("oauth2").grantTypes(grantTypes).build();
     }
 
     private ApiInfo apiInfo(SwaggerProperties swagger) {

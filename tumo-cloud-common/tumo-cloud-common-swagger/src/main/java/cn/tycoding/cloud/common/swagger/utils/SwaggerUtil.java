@@ -1,11 +1,11 @@
 package cn.tycoding.cloud.common.swagger.utils;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import springfox.documentation.RequestHandler;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 public class SwaggerUtil {
 
     public static Predicate<RequestHandler> basePackage(final List<String> basePackages) {
-        return input -> declaringClass(input).transform(handlerPackage(basePackages)).or(true);
+        return input -> declaringClass(input).map(handlerPackage(basePackages)).orElse(true);
     }
 
     private static Function<Class<?>, Boolean> handlerPackage(final List<String> basePackages) {
@@ -37,6 +37,6 @@ public class SwaggerUtil {
     }
 
     private static Optional<? extends Class<?>> declaringClass(RequestHandler input) {
-        return Optional.fromNullable(input.declaringClass());
+        return Optional.ofNullable(input.declaringClass());
     }
 }

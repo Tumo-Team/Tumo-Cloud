@@ -4,6 +4,7 @@ import cn.tycoding.cloud.auth.filter.CaptchaFilter;
 import cn.tycoding.cloud.auth.handler.FormFailureHandler;
 import cn.tycoding.cloud.common.auth.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,19 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService());
+    @SneakyThrows
+    protected AuthenticationManager authenticationManager() {
+        return super.authenticationManagerBean();
     }
 
     @Bean
