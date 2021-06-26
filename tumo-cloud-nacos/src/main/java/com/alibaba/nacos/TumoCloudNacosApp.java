@@ -23,7 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 将Nacos官方源码中console组件的代码拷贝到这里单独作为一个服务启动，实际部署中还是应该用Nacos官方打包好的jar
- * 这里仅仅是为了开发方便
+ * 这里仅仅是为了开发方便  https://github.com/alibaba/nacos
  *
  * @author tycoding
  * @since 2021/3/1
