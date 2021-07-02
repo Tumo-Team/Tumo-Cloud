@@ -53,7 +53,7 @@ public class SwaggerProperties {
     /**
      * Scope
      */
-    private List<AuthorizationScope> authorizationScopeList;
+    private List<AuthorizationScope> authorizationScopeList = new ArrayList<>();
 
     @Data
     @NoArgsConstructor

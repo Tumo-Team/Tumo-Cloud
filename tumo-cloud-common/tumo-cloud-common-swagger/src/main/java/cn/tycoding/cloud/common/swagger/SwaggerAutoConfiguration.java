@@ -7,14 +7,12 @@ import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,10 +24,8 @@ import java.util.List;
  * @author tycoding
  * @since 2021/6/22
  */
-@Order
 @Configuration
 @EnableKnife4j
-@EnableSwagger2WebMvc
 @EnableConfigurationProperties({SwaggerProperties.class})
 public class SwaggerAutoConfiguration {
     private final static String BASE_PACKAGE = "cn.tycoding.cloud";
